@@ -50,10 +50,10 @@ public class UserQuartz {
 	 */
 	@Scheduled(cron = "0 0/1 9-17 * * ? ")
 	public void addUserScore() throws KeeperException, InterruptedException {
-		DistributedLock lock=new DistributedLock("192.168.xx.xxx:2181","quartz");
-		if(lock.tryLock()){
-			LOG.info("@Scheduled--------addUserScore()");
-			userDao.addScore(10);
+        DistributedLock lock = new DistributedLock("127.0.0.1:2181", "quartz");
+        if (lock.tryLock()) {
+            LOG.info("@Scheduled--------addUserScore()");
+            userDao.addScore(10);
 		}
 		lock.unlock();//释放锁
 	}

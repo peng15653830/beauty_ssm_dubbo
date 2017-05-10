@@ -18,6 +18,6 @@ public class OrderDaoTest {
 
     @Test
     public void test() throws Exception {
-
+        orderDao.insertOrder(1L, 1L, "1");
     }
 }

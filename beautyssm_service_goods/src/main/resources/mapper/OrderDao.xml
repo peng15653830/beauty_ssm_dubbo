@@ -14,7 +14,7 @@
 		SELECT *
 		FROM _order
 		ORDER BY
-		create_time DESC
+		gmt_create DESC
 		limit #{offset},#{limit}
 	</select>
 

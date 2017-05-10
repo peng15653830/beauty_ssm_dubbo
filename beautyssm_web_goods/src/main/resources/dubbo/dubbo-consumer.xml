@@ -13,8 +13,9 @@
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<!-- 注册中心地址 -->
 	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" />
-	
-	<!-- 用户服务接口 -->
+    <!--<dubbo:protocol id="dubbo" name="dubbo" port="20880" />-->
+
+    <!-- 用户服务接口 -->
 	<dubbo:reference interface="com.yingjun.ssm.api.goods.service.GoodsService" id="goodsService" />
 
 </beans>  

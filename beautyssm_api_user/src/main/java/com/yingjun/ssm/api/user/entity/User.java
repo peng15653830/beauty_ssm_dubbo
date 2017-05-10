@@ -6,74 +6,85 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 用户
- * @author yingjun
  *
+ * @author yingjun
  */
-public class User implements Serializable{
-	
-	private long userId;
-	
-	private String userName;
-	
-	private long userPhone;
-	
-	//这里展示了jackson封装好的以及自定义的对时间格式的转换方式
-	//后续对于一些复杂的转换可以自定义转换方式
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date createTime;
-	
-	private int score;
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+public class User implements Serializable {
 
 
-	public String getUserName() {
-		return userName;
-	}
+    private long id;
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    private String name;
 
-	public long getUserPhone() {
-		return userPhone;
-	}
+    private long phone;
 
-	public void setUserPhone(long userPhone) {
-		this.userPhone = userPhone;
-	}
+    //这里展示了jackson封装好的以及自定义的对时间格式的转换方式
+    //后续对于一些复杂的转换可以自定义转换方式
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date gmtCreate;
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date gmtModified;
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    private int score;
 
-	public int getScore() {
-		return score;
-	}
+    private String password;
 
-	public void setScore(int score) {
-		this.score = score;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", userPhone=" + userPhone + ", createTime=" + createTime + ", score=" + score
-				+ "]";
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(long phone) {
+        this.phone = phone;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
+    }
 }

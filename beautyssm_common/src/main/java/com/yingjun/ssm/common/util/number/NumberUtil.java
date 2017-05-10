@@ -1,8 +1,8 @@
 package com.yingjun.ssm.common.util.number;
 
-import java.math.BigDecimal;
-
 import org.apache.commons.lang3.math.NumberUtils;
+
+import java.math.BigDecimal;
 
 /**
  * 

@@ -10,6 +10,8 @@ public interface UserService {
 
 	List<User> getUserList(int offset, int limit);
 
+	User get(Integer id);
+
 	User queryByPhone(long userPhone);
 
 	/**
@@ -26,4 +28,9 @@ public interface UserService {
      */
 	int addScoreByAsy(int score);
 
+	void testBranch();
+
+	int register(User user);
+
+	int checkLogin(User user);
 }

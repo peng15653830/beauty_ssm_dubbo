@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -100,10 +101,10 @@ public class RedisCache {
 			}
 		});
 		if (result == null) {
-			return null;
-		}
-		return ProtoStuffSerializerUtil.deserializeList(result, targetClass);
-	}
+            return Collections.emptyList();
+        }
+        return ProtoStuffSerializerUtil.deserializeList(result, targetClass);
+    }
 
 	/**
 	 * 精确删除key

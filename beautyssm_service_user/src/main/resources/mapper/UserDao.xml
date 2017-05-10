@@ -2,35 +2,81 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yingjun.ssm.core.user.dao.UserDao">
 
-	<select id="queryByPhone" resultType="User">
-		SELECT *
-		FROM _user
-		WHERE 
-		user_phone= #{userPhone} limit 1
-	</select>
-	
-	<select id="queryAll" resultType="User">
-		SELECT *
-		FROM _user
-		ORDER BY create_time DESC
-		limit #{offset},#{limit}
-	</select>
+    <!--<insert id="insertUser">-->
+    <!--INSERT INTO-->
+    <!--${tableName}(userName,userPhone,score)-->
+    <!--VALUES-->
+    <!--(#{userName},#{userPhone},#{score})-->
+    <!--</insert>-->
+    <select id="get" parameterType="java.lang.Integer" resultType="User">
+        SELECT
+            id,
+            name,
+            phone,
+            score
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="User">
+        INSERT INTO
+            user (name, phone, password, score)
+        VALUES
+            (#{user.name}, #{user.phone}, #{user.password}, #{user.score})
+    </insert>
+    <update id="update" parameterType="User">
+        UPDATE user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null">name=#{name},</if>
+            <if test="phone!=null">phone=#{phone},</if>
+            <if test="score!=null">score=#{score},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <select id="queryByPhone" resultType="User">
+        SELECT *
+        FROM user
+        WHERE
+            phone = #{phone}
+        LIMIT 1
+    </select>
+
+    <select id="queryAll" resultType="User">
+        SELECT
+            id,
+            name,
+            phone,
+            score,
+            gmt_create
+        FROM user
+        ORDER BY gmt_create DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="checkLogin" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM user
+        WHERE name = #{user.name}
+              AND password = #{user.password}
+        LIMIT 1
+    </select>
+
 
     <!--mybatis调用存储过程-->
     <select id="bugWithProcedure" statementType="CALLABLE">
-        call execute_buy(
-          #{userId,jdbcType=BIGINT,mode=IN},
-          #{goodsId,jdbcType=BIGINT,mode=IN},
-          #{title,jdbcType=TIMESTAMP,mode=IN},
-          #{result,jdbcType=INTEGER,mode=OUT}
+        CALL execute_buy(
+        #{userId,jdbcType=BIGINT,mode=IN},
+        #{goodsId,jdbcType=BIGINT,mode=IN},
+        #{title,jdbcType=TIMESTAMP,mode=IN},
+        #{result,jdbcType=INTEGER,mode=OUT}
         )
     </select>
-    
-    
-   	<update id="addScore">
-		UPDATE _user 
-		SET 
-		score = score + #{add}
-	</update>
+
+
+    <update id="addScore">
+        UPDATE user
+        SET
+            score = score + #{add}
+    </update>
 
 </mapper>

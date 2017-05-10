@@ -4,7 +4,9 @@ package com.yingjun.ssm.api.user.service.impl;
 import com.yingjun.ssm.api.user.entity.User;
 import com.yingjun.ssm.api.user.service.UserService;
 import com.yingjun.ssm.common.util.cache.RedisCache;
+import com.yingjun.ssm.common.util.encrypt.EncryptAndDecryptUtils;
 import com.yingjun.ssm.core.user.dao.UserDao;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,43 +17,64 @@ import java.util.List;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-	@Autowired
-	private UserDao userDao;
-	@Autowired
-	private RedisCache cache;
-	
-	
-	@Override
-	public List<User> getUserList(int offset, int limit) {
-		String cache_key=RedisCache.CAHCENAME+"|getUserList|"+offset+"|"+limit;
-		//先去缓存中取
-		List<User> result_cache=cache.getListCache(cache_key, User.class);
-		if (result_cache != null) {
-			LOG.info("get cache with key:"+cache_key);
-		} else {
-			//缓存中没有再去数据库取，并插入缓存（缓存时间为60秒）
-			result_cache=userDao.queryAll(offset, limit);
-			cache.putListCacheWithExpireTime(cache_key, result_cache, RedisCache.CAHCETIME);
-			LOG.info("put cache with key:"+cache_key);
-		}
-		return result_cache;
-	}
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private RedisCache cache;
 
-	@Override
-	public User queryByPhone(long userPhone) {
-		return userDao.queryByPhone(userPhone);
-	}
 
-	@Override
-	public int addScoreBySyn(int score) {
-		int result=userDao.addScore(score);
-		return result;
-	}
+    @Override
+    public List<User> getUserList(int offset, int limit) {
+        String cache_key = RedisCache.CAHCENAME + "|getUserList|" + offset + "|" + limit;
+        //先去缓存中取
+        List<User> result_cache = cache.getListCache(cache_key, User.class);
+        if (CollectionUtils.isNotEmpty(result_cache)) {
+            LOG.info("get cache with key:" + cache_key);
+        } else {
+            //缓存中没有再去数据库取，并插入缓存（缓存时间为60秒）
+            result_cache = userDao.queryAll(offset, limit);
+            cache.putListCacheWithExpireTime(cache_key, result_cache, RedisCache.CAHCETIME);
+            LOG.info("put cache with key:" + cache_key);
+        }
+        return result_cache;
+    }
 
-	@Override
-	public int addScoreByAsy(int score) {
-		return addScoreBySyn(score);
-	}
+    public User get(Integer id) {
+        return userDao.get(id);
+    }
+
+    @Override
+    public User queryByPhone(long userPhone) {
+        return userDao.queryByPhone(userPhone);
+    }
+
+    @Override
+    public int addScoreBySyn(int score) {
+        int result = userDao.addScore(score);
+        return result;
+    }
+
+    @Override
+    public int addScoreByAsy(int score) {
+        return addScoreBySyn(score);
+    }
+
+    @Override
+    public void testBranch() {
+        System.out.println("testBranch");
+    }
+
+    @Override
+    public int register(User user) {
+        String password = user.getPassword();
+        user.setPassword(EncryptAndDecryptUtils.md5Encrypt(password));
+        return userDao.insert(user);
+    }
+
+    @Override
+    public int checkLogin(User user) {
+        return userDao.checkLogin(user);
+    }
 
 }

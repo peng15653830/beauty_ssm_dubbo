@@ -1,18 +1,13 @@
 package com.yingjun.ssm.common.util.validate;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -26,10 +21,10 @@ public class ValidateUtils {
 	
 	/**
 	 * 判断传入参数是否为字母与数字的组合字符串,而不是单一的字母或者数字
-	 * @param psw
-	 * @return
-	 */
-	public static boolean isPassword(String pwd){
+     * @param pwd
+     * @return
+     */
+    public static boolean isPassword(String pwd){
 		if(ValidateUtils.isInteger(pwd)){//是否全部为数字
 			return false;//全部为数字
 		}else{
@@ -226,22 +221,22 @@ public class ValidateUtils {
 
 	/**
 	 * 是否为邮编
-	 * 
-	 * @param phone
-	 * @return
-	 */
-	public static boolean isPostCode(String post) {
+     *
+     * @param post
+     * @return
+     */
+    public static boolean isPostCode(String post) {
 		Pattern pattern = Pattern.compile("^[0-9]{6}$");
 		return pattern.matcher(post).matches();
 	}
 
 	/**
 	 * 是否为日期格式：yyyy-MM-dd
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public static boolean isDate(String dateStr) {
+     *
+     * @param dateStr
+     * @return
+     */
+    public static boolean isDate(String dateStr) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
 		try {
@@ -479,10 +474,10 @@ public class ValidateUtils {
 	 * 
 	 * @param str
 	 *            待检查的字符串
-	 * @param minLength
-	 *            最小长度
-	 */
-	public static boolean checkStrMaxLengthByBytes(String str, Integer maxLength) {
+     * @param maxLength
+     *            最小长度
+     */
+    public static boolean checkStrMaxLengthByBytes(String str, Integer maxLength) {
 		int length = str.getBytes().length;
 		if(length <= maxLength){
 			return true;
@@ -552,7 +547,6 @@ public class ValidateUtils {
 	 * 判断参数否非空
 	 * 
 	 * @param obj
-	 * @param message
 	 * @return
 	 */
 	public static boolean isNull(Object obj) {
