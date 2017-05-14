@@ -24,20 +24,11 @@ import java.util.List;
 @RequestMapping("/goods")
 public class GoodsController {
 
-    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private GoodsService goodsService;
 
-	/*@RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model, Integer offset, Integer limit) {
-		LOG.info("invoke----------/goods/list");
-		offset = offset == null ? 0 : offset;//默认便宜0
-		limit = limit == null ? 50 : limit;//默认展示50条
-		List<Goods> list = goodsService.getGoodsList(offset, limit);
-		model.addAttribute("goodslist", list);
-		return "goodslist";
-	}*/
 
     /**
      * 摒弃jsp页面通过ajax接口做到真正意义上的前后分离
@@ -49,7 +40,7 @@ public class GoodsController {
     @RequestMapping(value = "/list", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public BootStrapTableResult<Goods> list(Integer offset, Integer limit) {
-        LOG.info("invoke----------/goods/list");
+        logger.info("invoke----------/goods/list");
         offset = offset == null ? 0 : offset;//默认便宜0
         limit = limit == null ? 50 : limit;//默认展示50条
         List<Goods> list = goodsService.getGoodsList(offset, limit);
@@ -61,7 +52,7 @@ public class GoodsController {
     @ResponseBody
     public BaseResult<Object> buy(@CookieValue(value = "userPhone", required = false) Long userPhone,
                                   @Valid Goods goods, BindingResult result, HttpSession httpSession) {
-        LOG.info("invoke----------/" + goods.getGoodsId() + "/buy userPhone:" + userPhone);
+        logger.info("invoke----------/" + goods.getGoodsId() + "/buy userPhone:" + userPhone);
         if (userPhone == null) {
             //return new BaseResult<Object>(false, UserExceptionEnum.INVALID_USER.getMsg());
             userPhone=18768128888L;
@@ -73,15 +64,15 @@ public class GoodsController {
         }
         //这里纯粹是为了验证集群模式西的session共享功能上
 
-        LOG.info("lastSessionTime:" + httpSession.getAttribute("sessionTime"));
+        logger.info("lastSessionTime:" + httpSession.getAttribute("sessionTime"));
         httpSession.setAttribute("sessionTime", System.currentTimeMillis());
         try {
             goodsService.buyGoods(userPhone, goods.getGoodsId(), false);
         } catch (RpcException e) {
-            LOG.error(e.getMessage());
+            logger.error(e.getMessage());
             return new BaseResult<Object>(false, e.getMessage());
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            logger.error(e.getMessage());
             return new BaseResult<Object>(false, BizExceptionEnum.INNER_ERROR.getMsg());
         }
         return new BaseResult<Object>(true, null);
@@ -90,7 +81,7 @@ public class GoodsController {
     @RequestMapping(value = "/{goodsId}/testDistributedTransaction", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public BaseResult<Object> testDistributedTransaction(@Valid Goods goods, BindingResult result) {
-        LOG.info("invoke----------/goods/testDistributedTransaction");
+        logger.info("invoke----------/goods/testDistributedTransaction");
         //Valid 参数验证
         if (result.hasErrors()) {
             String errorInfo = "[" + result.getFieldError().getField() + "]" + result.getFieldError().getDefaultMessage();
@@ -99,10 +90,10 @@ public class GoodsController {
         try {
             goodsService.testDistributedTransaction(goods.getGoodsId());
         } catch (RpcException e) {
-            LOG.error(e.getMessage());
+            logger.error(e.getMessage());
             return new BaseResult<Object>(false, e.getMessage());
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            logger.error(e.getMessage());
             return new BaseResult<Object>(false, BizExceptionEnum.INNER_ERROR.getMsg());
         }
         return new BaseResult<Object>(true, null);

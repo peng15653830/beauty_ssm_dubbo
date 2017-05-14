@@ -5,17 +5,17 @@
 
 	<select id="queryAll" resultType="Goods">
 		SELECT *
-		FROM _goods
+		FROM goods
         ORDER BY gmt_create DESC
 		limit #{offset},#{limit}
 	</select>
 
 	<update id="reduceNumber">
-		UPDATE _goods 
+		UPDATE goods
 		SET 
 		number = number -1
 		WHERE
-		goods_id = #{goodsId}
+		id = #{goodsId}
 		AND state = 1
 		AND number >0;
 	</update>

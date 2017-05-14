@@ -13,7 +13,7 @@ public class Goods implements Serializable {
 
 	@Min(900)
 	@Not999 //这个为自定义的验证标签
-	private long goodsId;
+	private long id;
 	
 	private String title;
 	
@@ -26,60 +26,63 @@ public class Goods implements Serializable {
 	//这里展示了jackson封装好的以及自定义的对时间格式的转换方式
 	//后续对于一些复杂的转换可以自定义转换方式
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date createTime;
+	private Date gmtCreate;
 	
-	@JsonSerialize(using = CustomDateSerializer.class)  
-	private Date updateTime;
-	
-	public long getGoodsId() {
-		return goodsId;
-	}
-	public void setGoodsId(long goodsId) {
-		this.goodsId = goodsId;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public float getPrice() {
-		return price;
-	}
-	public void setPrice(float price) {
-		this.price = price;
-	}
-	
-	public Date getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-	public short getState() {
-		return state;
-	}
-	public void setState(short state) {
-		this.state = state;
-	}
-	
+	@JsonSerialize(using = CustomDateSerializer.class)
+	private Date gmtModified;
+
 	public int getNumber() {
 		return number;
 	}
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	@Override
-	public String toString() {
-		return "Goods [goodsId=" + goodsId + ", title=" + title + ", price=" + price + ", state=" + state + ", number=" + number + ", createTime="
-				+ createTime + ", updateTime=" + updateTime + "]";
+
+	public long getId() {
+		return id;
 	}
-	
-	
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public short getState() {
+		return state;
+	}
+
+	public void setState(short state) {
+		this.state = state;
+	}
+
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
+
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
 }

@@ -20,14 +20,14 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserService userService;
 
 	/*@RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model entity, Integer offset, Integer limit) {
-		LOG.info("invoke----------/user/list");
+		logger.info("invoke----------/user/list");
 		offset = offset == null ? 0 : offset;//默认便宜0
 		limit = limit == null ? 50 : limit;//默认展示50条
 		List<User> list = userService.getUserList(offset, limit);
@@ -46,7 +46,7 @@ public class UserController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public BootStrapTableResult<User> list(Integer offset, Integer limit) {
-        LOG.info("invoke----------/user/list");
+        logger.info("invoke----------/user/list");
         offset = offset == null ? 0 : offset;//默认便宜0
         limit = limit == null ? 50 : limit;//默认展示50条
         List<User> list = userService.getUserList(offset, limit);
